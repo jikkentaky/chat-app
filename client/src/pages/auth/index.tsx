@@ -3,7 +3,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Tab, Tabs } from '@mui/material'
-import * as yup from 'yup'
+
 
 import { CustomInput } from '@/ui-components/custom-input'
 import { ChatIcon } from '@/ui-components/icons/chat-icon'
@@ -11,25 +11,22 @@ import { Typography } from '@/ui-components/typography'
 
 import styles from './styles.module.scss'
 import { CustomButton } from '@/ui-components/custom-button'
+import { apiClient } from '@/lib/api-client'
+import { LOGIN_ROUTE, loginSchema, SIGN_UP_ROUTE, signUpSchema } from '@/utils/config'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router'
+import { APP_ROUTE } from '@/types/enums/route'
 
-const loginSchema = yup.object().shape({
-  username: yup.string().required('Username is required'),
-  password: yup.string().required('Password is required'),
-})
 
-const signUpSchema = yup.object().shape({
-  username: yup.string().required('Username is required'),
-  password: yup.string().required('Password is required'),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), ''], 'Passwords must match'),
-})
 
 const Auth = () => {
   const [value, setValue] = useState(0)
+  const navigate = useNavigate()
 
   const loginForm = useForm({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
     },
   })
@@ -37,7 +34,7 @@ const Auth = () => {
   const signUpForm = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
-      username: '',
+      email: '',
       password: '',
       confirmPassword: '',
     },
@@ -47,12 +44,41 @@ const Auth = () => {
     setValue(newValue)
   }
 
-  const handleLoginSubmit = (data: FieldValues) => {
-    console.log('Login Data:', data)
+  const handleLoginSubmit = async (fieldValues: FieldValues) => {
+    const { email, password } = fieldValues;
+
+    try {
+      const response = await apiClient.post(LOGIN_ROUTE, {
+        email,
+        password
+      }, { withCredentials: true })
+
+      if (response.status === 201) {
+        if (response.data.user.profileSetup) {
+          navigate(APP_ROUTE.CHAT)
+        } else {
+          navigate(APP_ROUTE.PROFILE)
+        }
+      }
+    } catch (error) {
+      toast.error('Cannot login user')
+    }
   }
 
-  const handleSignUpSubmit = (data: FieldValues) => {
-    console.log('Signup Data:', data)
+  const handleSignUpSubmit = async (fieldValues: FieldValues) => {
+    const { email, password } = fieldValues
+    try {
+      const response = await apiClient.post(SIGN_UP_ROUTE, {
+        email,
+        password
+      }, { withCredentials: true })
+
+      if (response.status === 201) {
+        navigate(APP_ROUTE.PROFILE)
+      }
+    } catch (error) {
+      toast.error('Cannot register user')
+    }
   }
 
   return (
@@ -74,11 +100,11 @@ const Auth = () => {
         {value === 0 && (
           <form onSubmit={loginForm.handleSubmit(handleLoginSubmit)} className={styles['form']}>
             <CustomInput
-              name="username"
+              name="email"
               control={loginForm.control}
-              label="Username"
-              error={!!loginForm.formState.errors.username}
-              helperText={loginForm.formState.errors.username?.message}
+              label="Email"
+              error={!!loginForm.formState.errors.email}
+              helperText={loginForm.formState.errors.email?.message}
               className={styles['custom-input']}
             />
 
@@ -101,11 +127,11 @@ const Auth = () => {
         {value === 1 && (
           <form onSubmit={signUpForm.handleSubmit(handleSignUpSubmit)} className={styles['form']}>
             <CustomInput
-              name="username"
+              name="email"
               control={signUpForm.control}
-              label="Username"
-              error={!!signUpForm.formState.errors.username}
-              helperText={signUpForm.formState.errors.username?.message}
+              label="Email"
+              error={!!signUpForm.formState.errors.email}
+              helperText={signUpForm.formState.errors.email?.message}
               className={styles['custom-input']}
             />
 
