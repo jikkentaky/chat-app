@@ -1,5 +1,2 @@
-build/
-.swc
-node_modules/
-*-error.log
-.vscode/
+.env
+node_modules

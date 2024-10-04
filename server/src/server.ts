@@ -1,35 +1,17 @@
-import 'reflect-metadata';
-import './controllers';
+// import mongoose from "mongoose";
+import app from './app'
+import config from './config'
 
-import bodyParser from 'body-parser';
-import { Container } from 'inversify';
-import { InversifyExpressServer } from 'inversify-express-utils';
-import type { NextFunction, Request, Response } from 'express';
+const main = async () => {
+  try {
+    // await mongoose.connect(config.database_url as string);
+    // console.log("Database is connected");
+    app.listen(config.port, () => {
+      console.log(`application listening on port ${config.port}`)
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-import { IndexService } from './services';
-import { getName } from './utils';
-
-const rootContainer = new Container();
-
-rootContainer.bind<IndexService>(getName(IndexService)).to(IndexService);
-
-const server = new InversifyExpressServer(rootContainer);
-
-server.setConfig((srv) => {
-  srv.use(
-    bodyParser.urlencoded({
-      extended: true,
-    }),
-  );
-  srv.use(bodyParser.json());
-});
-
-server.setErrorConfig((app) => {
-  app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-    res.status(500).json({ error: err.message });
-  });
-});
-
-const app = server.build();
-
-export { app, rootContainer };
+main()
