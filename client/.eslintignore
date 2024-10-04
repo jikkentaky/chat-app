@@ -1,0 +1,11 @@
+node_modules
+dist
+coverage
+.eslintcache
+.eslintrc.cjs
+mockServiceWorker.js
+build
+public
+
+#files
+*.config.*

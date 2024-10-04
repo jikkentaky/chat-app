@@ -1,0 +1,16 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+@import '@/assets/mixins';
+
+.button {
+  font-weight: $fw-600 !important;
+  font-size: $fs-16;
+  padding: 8px !important;
+
+  color: $color-white !important;
+  background-color: $color-blue-1 !important;
+  border: none;
+  border-radius: $border-radius !important;
+
+  @include hover(background-color, $color-blue-2);
+}

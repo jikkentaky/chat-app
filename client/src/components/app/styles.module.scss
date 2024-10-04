@@ -1,0 +1,12 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+@import '@/assets/mixins';
+
+.main {
+  height: 100%;
+  @include container();
+}
+
+.content {
+  width: 100%;
+}

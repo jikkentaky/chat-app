@@ -1,0 +1,29 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+
+p {
+  margin: 0;
+
+  font-size: $fs-16;
+  font-weight: $fw-400;
+}
+
+.inherit {
+  // should be empty
+}
+
+.regular {
+  font-weight: $fw-400;
+}
+
+.medium {
+  font-weight: $fw-500;
+}
+
+.semibold {
+  font-weight: $fw-600;
+}
+
+.bold {
+  font-weight: $fw-700;
+}
