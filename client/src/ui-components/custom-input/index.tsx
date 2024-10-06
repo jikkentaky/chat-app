@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 import cn from 'classnames'
 
 type Props<T extends FieldValues> = TextFieldProps & {
-  control: Control<T>
+  control?: Control<T>
   name: Path<T>
 }
 
@@ -16,6 +16,7 @@ const CustomInput = <T extends FieldValues>({
   label,
   type = 'text',
   className = '',
+  ...props
 }: Props<T>) => (
   <Controller
     name={name}
@@ -30,6 +31,7 @@ const CustomInput = <T extends FieldValues>({
         error={!!error}
         helperText={error ? error.message : null}
         fullWidth
+        {...props}
       />
     )}
   />

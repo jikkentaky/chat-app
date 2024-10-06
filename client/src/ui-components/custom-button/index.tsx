@@ -1,18 +1,19 @@
-import { Button, ButtonBaseProps } from "@mui/material"
-import { FC } from "react"
-import cn from "classnames"
-import styles from "./styles.module.scss"
+import { Button, ButtonProps } from "@mui/material";
+import { FC } from "react";
+import cn from "classnames";
+import styles from "./styles.module.scss";
 
-const CustomButton: FC<ButtonBaseProps> = ({ children, className, type, onClick }) => {
+const CustomButton: FC<ButtonProps> = ({ children, className, type = "button", onClick, ...props }) => {
   return (
     <Button
       className={cn(styles.button, className)}
       onClick={onClick}
       type={type}
+      {...props}
     >
       {children}
     </Button>
-  )
-}
+  );
+};
 
-export { CustomButton }
+export { CustomButton };

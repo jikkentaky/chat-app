@@ -1,0 +1,9 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+@import '@/assets/mixins';
+
+.chat {
+  display: flex;
+  height: 100dvh;
+  overflow: hidden;
+}

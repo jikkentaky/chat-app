@@ -1,0 +1,17 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+@import '@/assets/mixins';
+
+.message-container {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+  width: calc(100vw - $contact-section-width);
+  @import '@/assets/variables-colors';
+  @import '@/assets/variables';
+  @import '@/assets/mixins';
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

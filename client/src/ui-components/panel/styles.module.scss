@@ -1,0 +1,11 @@
+@import '@/assets/variables-colors';
+@import '@/assets/mixins';
+
+.panel {
+  padding: 24px;
+  width: 100%;
+  max-width: 600px;
+  border-radius: $border-radius;
+  background-color: $color-white;
+  box-shadow: $box-shadow;
+}

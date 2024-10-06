@@ -54,3 +54,20 @@
 
   font-size: $fs-12;
 }
+
+@mixin input-styles {
+  min-height: 70px;
+  width: 100%;
+
+  &>div {
+    height: 50px;
+
+    &>input {
+      height: 50px;
+    }
+  }
+
+  &>p {
+    margin: 0;
+  }
+}

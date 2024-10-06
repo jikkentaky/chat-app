@@ -1,0 +1,26 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+@import '@/assets/mixins';
+
+.emptyChat {
+  @include flex-center;
+  flex-direction: column;
+  width: 100%;
+  background-color: $color-black-2;
+}
+
+.text {
+  opacity: 0.8;
+  font-size: $fs-24;
+  font-weight: $fw-600;
+  color: $color-white;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.span {
+  color: $color-purple;
+}

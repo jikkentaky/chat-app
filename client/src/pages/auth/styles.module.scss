@@ -9,12 +9,6 @@
 }
 
 .content {
-  padding: 24px;
-  width: 100%;
-  max-width: 600px;
-  border-radius: $border-radius;
-  background-color: $color-white;
-  box-shadow: $box-shadow;
   @include flex-center;
   flex-direction: column;
 }
@@ -52,18 +46,5 @@ button[role='tab'] {
 }
 
 .custom-input {
-  min-height: 70px;
-  width: 100%;
-
-  &>div {
-    height: 50px;
-
-    &>input {
-      height: 50px;
-    }
-  }
-
-  &>p {
-    margin: 0;
-  }
+  @include input-styles;
 }

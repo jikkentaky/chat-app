@@ -17,6 +17,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
 import { APP_ROUTE } from '@/types/enums/route'
 import { useStore } from '@/store'
+import { Panel } from '@/ui-components/panel'
 
 
 
@@ -87,7 +88,7 @@ const Auth = () => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.content}>
+      <Panel className={styles.content}>
         <div className={styles['title-wrapper']}>
           <Typography variant="h1" className={styles.title}>
             Welcome to ConnectZone
@@ -122,7 +123,7 @@ const Auth = () => {
               className={styles['custom-input']}
             />
 
-            <CustomButton type="submit" className={styles.button}>
+            <CustomButton type="submit" className={styles.button} >
               Login
             </CustomButton>
           </form>
@@ -164,7 +165,7 @@ const Auth = () => {
             </CustomButton>
           </form>
         )}
-      </div>
+      </Panel>
     </section>
   )
 }

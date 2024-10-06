@@ -5,7 +5,6 @@ import { Profile } from '@/pages/profile';
 import { APP_ROUTE } from '@/types/enums/route';
 import { useStore } from '@/store';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import { apiClient } from '@/lib/api-client';
 import { USER_INFO_ROUTE } from '@/utils/config';
 import { PrivateRoute } from '@/components/private-route';
@@ -26,7 +25,7 @@ const Layout = () => {
           setUserInfo(null);
         }
       } catch (error) {
-        toast.error('Cannot get user info');
+        console.log(error)
       } finally {
         setIsLoading(false);
       }
@@ -35,7 +34,7 @@ const Layout = () => {
     if (!userInfo) {
       getUserInfo();
     }
-  }, [userInfo, setUserInfo]);
+  }, [userInfo]);
 
   if (isLoading) {
     return <div>Loading</div>;
@@ -45,9 +44,18 @@ const Layout = () => {
     <>
       <Routes>
         <Route path="*" element={<Navigate to={APP_ROUTE.AUTH} />} />
-        <Route path={APP_ROUTE.AUTH} element={<PublicRoute><Auth /></PublicRoute>} />
-        <Route path={APP_ROUTE.PROFILE} element={<PrivateRoute><Profile /></PrivateRoute>} />
-        <Route path={APP_ROUTE.CHAT} element={<PrivateRoute><Chat /></PrivateRoute>} />
+        <Route path={APP_ROUTE.AUTH} element={
+          <PublicRoute>
+            <Auth />
+          </PublicRoute>} />
+
+        <Route path={APP_ROUTE.PROFILE} element={<PrivateRoute>
+          <Profile />
+        </PrivateRoute>} />
+
+        <Route path={APP_ROUTE.CHAT} element={<PrivateRoute>
+          <Chat />
+        </PrivateRoute>} />
       </Routes>
     </>
   );

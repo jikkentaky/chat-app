@@ -1,0 +1,41 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+@import '@/assets/mixins';
+
+.contacts {
+  position: relative;
+  width: $contact-section-width;
+  flex-grow: 1;
+  background-color: $color-black-1;
+  color: $color-white;
+  border-right: 2px solid $color-grey;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.rooms {
+  padding: 0 16px 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.room {
+  @include flex-between;
+}
+
+.chat-title {
+  font-size: $fs-30;
+  text-align: center;
+}
+
+.sub-title {
+  color: $color-grey;
+  font-size: $fs-14;
+  font-weight: 900;
+  margin: 0;
+  text-transform: uppercase;
+}

@@ -1,10 +1,9 @@
 type UserInfo = {
   email: string
   password: string
-  name: string
+  firstName: string
+  lastName: string
   profileSetup: boolean
-  color: string
-  image: string
 }
 
 export type { UserInfo }
