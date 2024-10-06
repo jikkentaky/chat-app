@@ -16,11 +16,13 @@ import { LOGIN_ROUTE, loginSchema, SIGN_UP_ROUTE, signUpSchema } from '@/utils/c
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router'
 import { APP_ROUTE } from '@/types/enums/route'
+import { useStore } from '@/store'
 
 
 
 const Auth = () => {
   const [value, setValue] = useState(0)
+  const { setUserInfo } = useStore()
   const navigate = useNavigate()
 
   const loginForm = useForm({
@@ -54,6 +56,7 @@ const Auth = () => {
       }, { withCredentials: true })
 
       if (response.status === 201) {
+        setUserInfo(response.data.user)
         if (response.data.user.profileSetup) {
           navigate(APP_ROUTE.CHAT)
         } else {
@@ -74,6 +77,7 @@ const Auth = () => {
       }, { withCredentials: true })
 
       if (response.status === 201) {
+        setUserInfo(response.data.user)
         navigate(APP_ROUTE.PROFILE)
       }
     } catch (error) {

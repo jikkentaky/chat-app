@@ -1,8 +1,9 @@
 import { compare } from "bcrypt";
 import config from "../config";
-import User from "../models/user-model";
+import { User } from "../models/user-model";
 import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express';
+import { CustomRequest } from "../types/custom-request";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -82,4 +83,22 @@ const login = async (req: Request, res: Response) => {
   }
 }
 
-export { signUp, login }
+const getUserInfo = async (req: CustomRequest, res: Response) => {
+  const foundUser = await User.findById(req.userId);
+
+  if (!foundUser) {
+    return res.status(404).send('User not found');
+  }
+
+  return res.status(200).json({
+    id: foundUser.id,
+    email: foundUser.email,
+    profileSetup: foundUser.profileSetup,
+    firstName: foundUser.firstName,
+    lastName: foundUser.lastName,
+    image: foundUser.image,
+    color: foundUser.color
+  })
+}
+
+export { signUp, login, getUserInfo }

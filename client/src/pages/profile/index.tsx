@@ -1,5 +1,9 @@
+import { useStore } from "@/store"
+
 const Profile = () => {
-  return <div>Profile</div>
+  const { userInfo } = useStore()
+
+  return <div>{userInfo?.email}</div>
 }
 
 export { Profile }
