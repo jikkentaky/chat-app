@@ -4,6 +4,7 @@
 
 .message-container {
   display: flex;
+  flex-direction: column;
   flex: 1;
   overflow-y: auto;
   width: calc(100vw - $contact-section-width);
@@ -14,4 +15,45 @@
   ::-webkit-scrollbar {
     display: none;
   }
+}
+
+.message-sender {
+  background-color: $color-violet;
+  border-color: $color-violet;
+}
+
+.message-reciever {
+  background-color: $color-black-3;
+  border-color: $color-white;
+  color: $color-white;
+}
+
+.message-sender-container {
+  text-align: left;
+}
+
+.message-reciever-container {
+  text-align: right;
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  @include flex-center;
+}
+
+.image {
+  height: 80vh;
+  width: 80vw;
+  background-size: cover;
+}
+
+.close-button {
+  display: flex;
+  position: fixed;
+  top: 20px;
 }

@@ -46,7 +46,7 @@ const Profile = () => {
         <BackButton className={styles['back-button']} />
 
         <Avatar sx={{ width: 100, height: 100 }}>
-          {userInfo && userInfo.firstName[0] + userInfo.lastName[0]}
+          {(userInfo?.firstName && userInfo?.lastName) && userInfo.firstName[0] + userInfo.lastName[0]}
         </Avatar>
 
         <form className={styles.form} onSubmit={userForm.handleSubmit(onSubmit)}>

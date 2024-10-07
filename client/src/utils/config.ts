@@ -14,6 +14,13 @@ const LOG_OUT_ROUTE = `${AUTH_ROUTES}/logout`;
 // Contact routes
 const CONTACT_ROUTES = 'api/contact';
 const SEARCH_CONTACT_ROUTE = `${CONTACT_ROUTES}/search-contact`;
+const GET_CONTACTS_FOR_DM_LIST_ROUTE = `${CONTACT_ROUTES}/get-contacts-for-dm-list`;
+const GET_ALL_CONTACTS = `${CONTACT_ROUTES}/get-all-contacts`;
+
+// Messages routes
+const MESSAGES_ROUTES = 'api/messages';
+const GET_MESSAGES_ROUTE = `${MESSAGES_ROUTES}/get-messages`;
+const UPLOAD_FILES_ROUTE = `${MESSAGES_ROUTES}/upload-file`;
 
 const animationDefaultOptions = {
   loop: true,
@@ -48,7 +55,10 @@ export {
   LOGIN_ROUTE,
   LOG_OUT_ROUTE,
   SEARCH_CONTACT_ROUTE,
-
+  GET_MESSAGES_ROUTE,
+  GET_CONTACTS_FOR_DM_LIST_ROUTE,
+  UPLOAD_FILES_ROUTE,
+  GET_ALL_CONTACTS,
 
   // animation
   animationDefaultOptions,

@@ -73,8 +73,6 @@ const login = async (req: Request, res: Response) => {
         profileSetup: user.profileSetup,
         firstName: user.firstName,
         lastName: user.lastName,
-        image: user.image,
-        color: user.color
       }
     });
   } catch (error) {
@@ -96,9 +94,47 @@ const getUserInfo = async (req: CustomRequest, res: Response) => {
     profileSetup: foundUser.profileSetup,
     firstName: foundUser.firstName,
     lastName: foundUser.lastName,
-    image: foundUser.image,
-    color: foundUser.color
   })
 }
 
-export { signUp, login, getUserInfo }
+const updateUserInfo = async (req: CustomRequest, res: Response) => {
+  const { userId } = req;
+  const { firstName, lastName } = req.body.data;
+
+  if (!firstName || !lastName) {
+    return res.status(400).send('First name and last name are required');
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(userId, {
+    firstName,
+    lastName,
+    profileSetup: true
+  }, {
+    new: true, runValidators: true
+  });
+
+  if (!updatedUser) {
+    return res.status(404).send('User not found');
+  }
+
+  return res.status(200).json({
+    user: {
+      id: updatedUser.id,
+      email: updatedUser.email,
+      profileSetup: updatedUser.profileSetup,
+      firstName: updatedUser.firstName,
+      lastName: updatedUser.lastName,
+    }
+  });
+}
+
+const logOut = async (_req: Request, res: Response) => {
+  try {
+    res.cookie('jwt', '', { maxAge: 1, secure: true, sameSite: 'none' });
+    return res.status(200).send('Logged out');
+  } catch (error) {
+    return res.status(500).send('Internal Server Error');
+  }
+}
+
+export { signUp, login, getUserInfo, updateUserInfo, logOut }

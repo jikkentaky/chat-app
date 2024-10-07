@@ -35,7 +35,7 @@ const ProfileInfo = () => {
     <div className={styles['profile-info']}>
       <div className={styles['wrapper']}>
         <Avatar sx={{ width: 50, height: 50 }}>
-          {userInfo && userInfo.firstName[0] + userInfo.lastName[0]}
+          {(userInfo?.firstName && userInfo?.lastName) && userInfo.firstName[0] + userInfo.lastName[0]}
         </Avatar>
 
         <Typography className={styles['name']}>

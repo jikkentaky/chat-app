@@ -1,0 +1,19 @@
+@import '@/assets/variables-colors';
+@import '@/assets/variables';
+@import '@/assets/mixins';
+
+.contact {
+  background-color: #f1f1f111;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: $color-violet;
+}
+
+.chat-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: start;
+}
