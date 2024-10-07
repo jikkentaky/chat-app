@@ -129,6 +129,8 @@
 }
 
 .modal-button {
+  padding: 12px;
   @include flex-center;
   cursor: pointer;
+  background-color: $color-purple;
 }

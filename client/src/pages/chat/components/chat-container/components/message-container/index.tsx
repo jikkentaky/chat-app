@@ -178,7 +178,10 @@ const MessageContainer = () => {
                   }
                 </div>
 
-                <div className={styles['timestamp']}>
+                <div className={cn({
+                  [styles['timestamp-sender']]: !isSender,
+                  [styles['timestamp-reciever']]: isSender
+                })}>
                   {moment(message.timestamp).format('LT')}
                 </div>
               </div>)
