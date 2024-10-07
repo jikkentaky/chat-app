@@ -4,7 +4,7 @@ import { GrAttachment } from 'react-icons/gr';
 import { CustomButton } from '@/ui-components/custom-button';
 import { RiEmojiStickerLine } from 'react-icons/ri';
 import { IoSend } from 'react-icons/io5';
-import EmojiPicker, { Theme } from 'emoji-picker-react';
+import EmojiPicker, { Theme, EmojiClickData } from 'emoji-picker-react';
 import { useStore } from '@/store';
 import { useSocket } from '@/context/socket-context';
 import toast from 'react-hot-toast';
@@ -16,12 +16,12 @@ const MessageBar = () => {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const { socket } = useSocket();
   const { selectedChatData, selectedChatType, userInfo } = useStore();
-  const [message, setMessage] = useState('');
-  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+  const [message, setMessage] = useState<string>('');
+  const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    function handleClickOutside(event: any) {
-      if (emojiRef.current && !emojiRef.current.contains(event.target)) {
+    function handleClickOutside(event: MouseEvent) {
+      if (emojiRef.current && !emojiRef.current.contains(event.target as Node)) {
         setIsEmojiPickerOpen(false);
       }
     }
@@ -33,7 +33,7 @@ const MessageBar = () => {
     };
   }, [emojiRef]);
 
-  const handleEmojiClick = (emoji: any) => {
+  const handleEmojiClick = (emoji: EmojiClickData) => {
     setMessage((message) => message + emoji.emoji);
   };
 
@@ -46,11 +46,19 @@ const MessageBar = () => {
         messageType: 'text',
         fileUrl: null,
       });
+
+      setMessage('');
     }
   };
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
   };
 
   const handleAttachmentClick = () => {
@@ -82,7 +90,7 @@ const MessageBar = () => {
         }
       }
     } catch (error) {
-      toast.error('Cannot send attachment')
+      toast.error('Cannot send attachment');
     }
   };
 
@@ -92,6 +100,7 @@ const MessageBar = () => {
         <input
           value={message}
           onChange={handleMessageChange}
+          onKeyDown={handleKeyDown}
           name="message"
           className={styles['input']}
           placeholder="Type a message..."
@@ -101,11 +110,11 @@ const MessageBar = () => {
           <GrAttachment className={styles['attach-icon']} />
 
           <input
-            type='file'
+            type="file"
             ref={fileRef}
             className={styles['file-input']}
-            accept='
-          image/*' onChange={handleAttachmentChange}
+            accept="image/*"
+            onChange={handleAttachmentChange}
           />
         </CustomButton>
 

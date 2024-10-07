@@ -22,6 +22,7 @@ const Contacts = () => {
         );
 
         if (response.status === 200 && response.data.contacts) {
+          console.log("🚀 ~ getContacts ~ response.data.contacts:", response.data.contacts)
           setDirectMessagesContacts(response.data.contacts)
         }
       } catch (error) {

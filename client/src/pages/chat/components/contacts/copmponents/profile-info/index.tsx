@@ -34,29 +34,33 @@ const ProfileInfo = () => {
   return (
     <div className={styles['profile-info']}>
       <div className={styles['wrapper']}>
-        <Avatar sx={{ width: 50, height: 50 }}>
-          {(userInfo?.firstName && userInfo?.lastName) && userInfo.firstName[0] + userInfo.lastName[0]}
-        </Avatar>
+        <div className={styles.info}>
+          <Avatar sx={{ width: 50, height: 50 }}>
+            {(userInfo?.firstName && userInfo?.lastName) && userInfo.firstName[0] + userInfo.lastName[0]}
+          </Avatar>
 
-        <Typography className={styles['name']}>
-          {userInfo?.firstName}
-        </Typography>
+          <Typography className={styles['name']}>
+            {userInfo?.firstName} {userInfo?.lastName}
+          </Typography>
+        </div>
 
-        <CustomButton
-          className={styles['edit-button']}
-          onClick={handleEditProfile}
-          title='Edit profile'
-        >
-          <PiPencilLight className={styles['edit-icon']} />
-        </CustomButton>
+        <div className={styles.buttons}>
+          <CustomButton
+            className={styles['edit-button']}
+            onClick={handleEditProfile}
+            title='Edit profile'
+          >
+            <PiPencilLight className={styles['edit-icon']} />
+          </CustomButton>
 
-        <CustomButton
-          className={styles['logout-button']}
-          onClick={handleLogout}
-          title='Logout'
-        >
-          <IoPowerSharp className={styles['logout-icon']} />
-        </CustomButton>
+          <CustomButton
+            className={styles['logout-button']}
+            onClick={handleLogout}
+            title='Logout'
+          >
+            <IoPowerSharp className={styles['logout-icon']} />
+          </CustomButton>
+        </div>
       </div>
     </div>
   )

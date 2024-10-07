@@ -8,15 +8,21 @@
   height: 64px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   background-color: $color-black-3;
 }
 
 .wrapper {
-  @include flex-center;
+  @include flex-between;
+  width: 100%;
   gap: 12px;
-  padding: 0 12px;
+  padding: 0 16px;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .name {
@@ -27,17 +33,7 @@
 
 .edit-button,
 .logout-button {
-  background-color: transparent !important;
-  min-width: 24px !important;
-  min-height: 24px !important;
-
-  &:active {
-    background-color: transparent !important;
-  }
-
-  &:hover {
-    background-color: transparent !important;
-  }
+  @include button-styles;
 }
 
 .edit-icon,
@@ -49,4 +45,9 @@
 
 .logout-icon {
   fill: $color-red;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
 }

@@ -6,13 +6,18 @@ import { Avatar } from '@mui/material'
 import { Typography } from '@/ui-components/typography'
 
 const ChatHeader = () => {
-  const { selectedChatData, selectedChatType } = useStore()
+  const { selectedChatData, setSelectedChatData, setSelectedChatType } = useStore()
+
+  const closeChat = () => {
+    setSelectedChatData(null)
+    setSelectedChatType(null)
+  }
 
   return (
     <div className={styles['chat-header']}>
-      <div className={styles['wrapper']}>
+      {/* <div className={styles['wrapper']}>
         <div className={styles.header}></div>
-      </div>
+      </div> */}
 
       <div className={styles['wrapper']}>
         <div className={styles.header}>
@@ -21,13 +26,13 @@ const ChatHeader = () => {
           </Avatar>
 
           <Typography className={styles['name']}>
-            {selectedChatData?.firstName}
+            {selectedChatData?.firstName} {selectedChatData?.lastName}
           </Typography>
         </div>
       </div>
 
       <div className={styles['wrapper']}>
-        <CustomButton className={styles['close-button']}>
+        <CustomButton className={styles['close-button']} onClick={closeChat}>
           <RiCloseFill className={styles['close-icon']} />
         </CustomButton>
       </div>

@@ -1,4 +1,5 @@
 import { useStore } from "@/store";
+import { MessageInfo } from "@/types/message-info";
 import { HOST } from "@/utils/config";
 import { createContext, useContext, useEffect, useRef, ReactNode } from "react";
 import { io, Socket } from "socket.io-client";
@@ -41,11 +42,10 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
       console.log('Socket connected');
     });
 
-    const handleReceiveMessage = (message: any) => {
+    const handleReceiveMessage = (message: MessageInfo) => {
       const { selectedChatData, selectedChatType, addMessage } = useStore.getState();
 
       if (selectedChatType && (selectedChatData?._id === message.recipient._id || selectedChatData?._id === message.sender._id)) {
-        console.log('message rcv', message);
         addMessage(message);
       }
     };

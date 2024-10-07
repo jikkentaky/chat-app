@@ -2,19 +2,23 @@
 @import '@/assets/variables';
 @import '@/assets/mixins';
 
+$height: 550px;
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: $height - 150px;
+  overflow-y: auto;
+}
+
+.open-contact {
+  margin: 0 16px !important;
+}
+
 .open-contact,
 .close-button {
-  background-color: transparent !important;
-  min-width: 24px !important;
-  min-height: 24px !important;
-
-  &:active {
-    background-color: transparent !important;
-  }
-
-  &:hover {
-    background-color: transparent !important;
-  }
+  @include button-styles;
 }
 
 .close-button {
@@ -28,9 +32,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400;
-  background-color: $color-black-3;
-  border: 2px solid $color-grey;
+  width: 580px;
+  height: $height;
+  background-color: $color-black-2;
+  border: 1px solid $color-grey;
 }
 
 .modal-wrapper {
@@ -40,10 +45,11 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 24px;
 }
 
 .title {
+  text-align: center;
+  margin-bottom: 0;
   color: $color-white;
   font-size: $fs-24;
 }
@@ -51,4 +57,41 @@
 .close-icon {
   width: 20px;
   height: 20px;
+}
+
+.search {
+  margin: 0 24px;
+  font-size: $fs-18;
+  height: 60px;
+  background-color: $color-black-3;
+  color: $color-white;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $color-white;
+    font-size: $fs-18;
+  }
+}
+
+.contact {
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  background-color: $color-violet-1;
+
+  @include hover(background-color, $color-purple);
+}
+
+.name {
+  color: $color-white;
+  font-size: $fs-18;
 }

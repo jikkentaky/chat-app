@@ -24,7 +24,6 @@ const searchContact = async (req: SearchRequest, res: Response) => {
       $and: [{ _id: { $ne: req.userId } },
       { $or: [{ firstName: regex }, { lastName: regex }, { email: regex }] }]
     });
-    console.log("launch  searchContact  contacts:", contacts);
 
     return res.status(200).json({ contacts });
   } catch (error) {

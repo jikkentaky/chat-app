@@ -7,6 +7,11 @@
   flex-direction: column;
   width: 100%;
   background-color: $color-black-2;
+  gap: 32px;
+}
+
+.title {
+  margin: 0 32px;
 }
 
 .text {

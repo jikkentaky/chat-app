@@ -41,8 +41,8 @@ const signUpSchema = yup.object().shape({
 
 const userInfoSchema = yup.object().shape({
   email: yup.string().required('Email is required').email('Email is invalid'),
-  firstName: yup.string().required('First name is required'),
-  lastName: yup.string().required('Last name is required'),
+  firstName: yup.string().required('First name is required').max(10, 'First name is too long'),
+  lastName: yup.string().required('Last name is required').max(10, 'Last name is too long'),
 })
 
 export {

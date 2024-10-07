@@ -9,9 +9,10 @@ import { EmptyChat } from '@/pages/chat/components/empty-chat'
 import { apiClient } from '@/lib/api-client'
 import { SEARCH_CONTACT_ROUTE } from '@/utils/config'
 import { useStore } from '@/store'
+import { ContactInfo } from '@/types/contact-info'
 
 const NewDM: FC = () => {
-  const { contact, setSelectedChatType, setSelectedChatData } = useStore()
+  const { setSelectedChatType, setSelectedChatData } = useStore()
   const [isOpenContactModal, setIsOpenContactModal] = useState(false)
   const [searchValue, setSearchValue] = useState([])
 
@@ -21,6 +22,7 @@ const NewDM: FC = () => {
 
   const handleClose = () => {
     setIsOpenContactModal(false)
+    setSearchValue([])
   }
 
   const handleSearchContact = async (contact: string) => {
@@ -55,7 +57,7 @@ const NewDM: FC = () => {
     []
   );
 
-  const selectNewContact = (contact: any) => {
+  const selectNewContact = (contact: ContactInfo) => {
     setSelectedChatType('contact')
     setSelectedChatData(contact)
     setSearchValue([])
@@ -93,20 +95,19 @@ const NewDM: FC = () => {
             {searchValue.length > 0 && (
               <div className={styles['contacts']}>
 
-                {searchValue.map((contact: any) => (
+                {searchValue.map((contact: ContactInfo) => (
                   <div className={styles['contact']} key={contact._id} onClick={() => selectNewContact(contact)}>
                     <Avatar sx={{ width: 50, height: 50 }}>
                       {(contact?.firstName && contact?.lastName) && contact.firstName[0] + contact.lastName[0]}
                     </Avatar>
 
                     <Typography className={styles['name']}>
-                      {contact?.firstName}
+                      {contact?.firstName} {contact?.lastName}
                     </Typography>
                   </div>
                 ))}
               </div>
             )}
-
 
             {!searchValue.length && (
               <EmptyChat />

@@ -7,19 +7,56 @@
   flex-direction: column;
   flex: 1;
   overflow-y: auto;
-  width: calc(100vw - $contact-section-width);
-  @import '@/assets/variables-colors';
-  @import '@/assets/variables';
-  @import '@/assets/mixins';
+  gap: 16px;
 
   ::-webkit-scrollbar {
     display: none;
   }
 }
 
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px;
+}
+
+.timestamp-sender {
+  align-self: flex-end;
+}
+
+.timestamp-reciever {
+  align-self: flex-start;
+}
+
+.timestamp-sender,
+.timestamp-reciever {
+  font-size: $fs-12;
+  color: $color-light-grey-1;
+  margin: 8px 16px;
+  font-weight: $fw-600;
+}
+
+.date {
+  color: $color-light-grey-1;
+  font-size: $fs-18;
+  font-weight: $fw-600;
+  text-align: center;
+  line-height: 32px;
+}
+
+.message-reciever,
 .message-sender {
-  background-color: $color-violet;
+  padding: 16px;
+  border-radius: 20px;
+  word-wrap: break-word;
+  white-space: normal;
+  color: $color-white;
+}
+
+.message-sender {
+  background-color: $color-violet-1;
   border-color: $color-violet;
+  align-self: flex-end;
 }
 
 .message-reciever {
@@ -28,12 +65,21 @@
   color: $color-white;
 }
 
+.message-sender-container,
+.message-reciever-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  text-wrap: wrap;
+  width: max-content;
+}
+
 .message-sender-container {
-  text-align: left;
+  align-self: flex-start;
 }
 
 .message-reciever-container {
-  text-align: right;
+  align-self: flex-end;
 }
 
 .image-modal {
@@ -42,18 +88,47 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   @include flex-center;
 }
 
 .image {
-  height: 80vh;
-  width: 80vw;
+  height: 70vh;
+  width: 70vw;
   background-size: cover;
 }
 
-.close-button {
+.buttons-container {
   display: flex;
+  gap: 16px;
   position: fixed;
   top: 20px;
+}
+
+.file-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-button {
+  @include flex-center;
+  cursor: pointer;
+  background-color: $color-black;
+  border-radius: 50%;
+  padding: 6px;
+}
+
+.image-container {
+  cursor: pointer;
+}
+
+.image {
+  width: 200px;
+  height: 200px;
+}
+
+.modal-button {
+  @include flex-center;
+  cursor: pointer;
 }

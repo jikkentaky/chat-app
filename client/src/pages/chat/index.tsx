@@ -8,7 +8,7 @@ const Chat = () => {
   const { selectedChatType } = useStore()
 
   return (
-    <section className={styles.chat}>
+    <div className={styles.chat}>
       <Contacts />
 
       {
@@ -16,8 +16,7 @@ const Chat = () => {
           ? <EmptyChat />
           : <ChatContainer />
       }
-
-    </section>
+    </div>
   )
 }
 export { Chat }

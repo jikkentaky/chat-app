@@ -3,16 +3,17 @@ import styles from './styles.module.scss'
 import { useStore } from '@/store'
 import { Avatar } from '@mui/material'
 import cn from 'classnames'
+import { ContactInfo } from '@/types/contact-info'
 
 type Props = {
-  contacts: any
+  contacts: ContactInfo[]
   isChannel: boolean
 }
 
 const ContactList: FC<Props> = ({ contacts, isChannel }) => {
-  const { selectedChatData, selectedChatType, setSelectedChatType, setSelectedChatData, setSelectedChatMessages } = useStore()
+  const { selectedChatData, setSelectedChatType, setSelectedChatData, setSelectedChatMessages } = useStore()
 
-  const handleClick = (contact: any) => {
+  const handleClick = (contact: ContactInfo) => {
     setSelectedChatType(isChannel ? 'channel' : 'contact');
     setSelectedChatData(contact);
 
@@ -23,7 +24,7 @@ const ContactList: FC<Props> = ({ contacts, isChannel }) => {
 
   return (
     <div className={styles['contact-list']}>
-      {contacts.map((contact: any) => {
+      {contacts.map((contact: ContactInfo) => {
         const isSelected = selectedChatData?._id === contact._id
         return (
           <div
@@ -36,7 +37,7 @@ const ContactList: FC<Props> = ({ contacts, isChannel }) => {
             <div className={styles['chat-wrapper']}>
               {!isChannel && (
                 <Avatar
-                  sx={{ width: 20, height: 20 }}
+                  sx={{ width: 50, height: 50 }}
                 >
                   {(contact?.firstName && contact?.lastName) && contact.firstName[0] + contact.lastName[0]}
                 </Avatar>
@@ -49,9 +50,9 @@ const ContactList: FC<Props> = ({ contacts, isChannel }) => {
               )}
 
               {isChannel ? (
-                <span>{contact.name}</span>
+                <span>{contact.firstName}</span>
               ) : (
-                <span>{`${contact.firstName} ${contact.lastName}`}</span>
+                <span>{`${contact.firstName} ${contact.lastName[0]}`}</span>
               )}
             </div>
           </div>

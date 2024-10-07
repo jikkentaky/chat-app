@@ -71,3 +71,17 @@
     margin: 0;
   }
 }
+
+@mixin button-styles {
+  background-color: transparent !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+
+  &:active {
+    background-color: transparent !important;
+  }
+
+  &:hover {
+    background-color: transparent !important;
+  }
+}

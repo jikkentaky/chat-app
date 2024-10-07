@@ -3,6 +3,8 @@
 @import '@/assets/mixins';
 
 .chat {
+  border-right: 1px solid $color-grey;
+  position: relative;
   display: flex;
   height: 100dvh;
   overflow: hidden;

@@ -10,10 +10,10 @@ import { GET_MESSAGES_ROUTE, HOST } from '@/utils/config';
 import { MdFolderZip } from 'react-icons/md'
 import { IoMdArrowRoundDown } from 'react-icons/io'
 import { IoCloseSharp } from 'react-icons/io5';
+import { MessageInfo } from '@/types/message-info';
 
 const MessageContainer = () => {
-
-  const { selectedChatData, selectedChatType, userInfo, selectedChatMessages, setSelectedChatMessages } = useStore();
+  const { selectedChatData, selectedChatType, selectedChatMessages, setSelectedChatMessages } = useStore();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isShowImage, setIsShowImage] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -57,7 +57,7 @@ const MessageContainer = () => {
         <div key={message._id}>
           {showDate && (
             <div className={styles['date-separator']}>
-              <Typography>
+              <Typography className={styles['date']}>
                 {moment(message.timestamp).format('LL')}
               </Typography>
             </div>
@@ -109,67 +109,82 @@ const MessageContainer = () => {
     setImageUrl(null);
   }
 
-  const renderDMMessages = (message: any) => {
-    const isSender = message.sender === selectedChatData?._id;
+  const renderDMMessages = (message: MessageInfo) => {
+    let senderId = Object.hasOwn(message.sender, '_id')
+      ? message.sender._id
+      : message.sender;
+
+    const isSender = senderId === selectedChatData?._id;
+
     return (
-      <div>
+      <div className={styles['message-wrapper']}>
         {message.messageType === 'text' && (
-          <div className={cn(isSender ? styles['message-sender-container'] : styles['message-reciever-container'])}>
-            <div className={cn({
+          <div className={cn({
+            [styles['message-sender-container']]: isSender,
+            [styles['message-reciever-container']]: !isSender
+          })}
+          >
+            <Typography className={cn({
               [styles['message-sender']]: !isSender,
               [styles['message-reciever']]: isSender
             })}>
               {message.content}
-            </div>
+            </Typography>
 
-            <div>
+            <div className={cn({
+              [styles['timestamp-sender']]: !isSender,
+              [styles['timestamp-reciever']]: isSender
+            })}>
               {moment(message.timestamp).format('LT')}
             </div>
-          </div>)}
+          </div>)
+        }
 
-        {message.messageType === 'file' && (
-          (
-            <div className={cn(isSender ? styles['message-sender-container'] : styles['message-reciever-container'])}>
-              <div
-                className={cn({
-                  [styles['message-sender']]: !isSender,
-                  [styles['message-reciever']]: isSender
-                })}
-              >
-                {checkIfImage(message.fileUrl)
-                  ? (
-                    <div
-                      className={styles['image-container']}
-                      onClick={() => handleShowImage(message.fileUrl)}
-                    >
-                      <img
-                        src={HOST + '/' + message.fileUrl}
-                        style={{ width: '50px', height: '50px' }}
-                      />
-                    </div>
-                  )
-                  : (<div className={styles['file-container']}>
-                    <span>
-                      <MdFolderZip />
-                    </span>
+        {
+          message.messageType === 'file' && (
+            (
+              <div className={cn(isSender ? styles['message-sender-container'] : styles['message-reciever-container'])}>
+                <div
+                  className={cn(styles.message, {
+                    [styles['message-sender']]: !isSender,
+                    [styles['message-reciever']]: isSender
+                  })}
+                >
+                  {checkIfImage(message.fileUrl as string)
+                    ? (
+                      <div
+                        className={styles['image-container']}
+                        onClick={() => handleShowImage(message.fileUrl as string)}
+                      >
+                        <img
+                          src={HOST + '/' + message.fileUrl}
+                          className={styles['image']}
+                        />
+                      </div>
+                    )
+                    : (<div className={styles['file-container']}>
+                      <span>
+                        <MdFolderZip size={50} />
+                      </span>
 
-                    <span>
-                      {message.fileUrl.split('/').pop()}
-                    </span>
+                      <span>
+                        {(message.fileUrl as string).split('/').pop()}
+                      </span>
 
-                    <span className={styles['download-button']} onClick={() => downLoadFile(message.fileUrl)}>
-                      <IoMdArrowRoundDown />
-                    </span>
-                  </div>)
-                }
-              </div>
+                      <span className={styles['download-button']} onClick={() => downLoadFile(message.fileUrl as string)}>
+                        <IoMdArrowRoundDown size={20} />
+                      </span>
+                    </div>)
+                  }
+                </div>
 
-              <div>
-                {moment(message.timestamp).format('LT')}
-              </div>
-            </div>)
-        )}
-      </div>
+                <div className={styles['timestamp']}>
+                  {moment(message.timestamp).format('LT')}
+                </div>
+              </div>)
+          )
+        }
+      </div >
     )
   }
 
@@ -184,16 +199,24 @@ const MessageContainer = () => {
           <div className={styles['image-modal']}>
             <div>
               <img src={HOST + '/' + imageUrl}
-                className={styles['image']}
+                className={styles['modal-image']}
               />
             </div>
 
-            <div className={styles['close-button']}>
-              <button onClick={() => downLoadFile(imageUrl)}>
+            <div className={styles['buttons-container']}>
+              <button
+                onClick={() => downLoadFile(imageUrl)}
+                className={styles['modal-button']}
+                title='Download image'
+              >
                 <IoMdArrowRoundDown />
               </button>
 
-              <button onClick={handleCloseImage}>
+              <button
+                onClick={handleCloseImage}
+                className={styles['modal-button']}
+                title='Close image'
+              >
                 <IoCloseSharp />
               </button>
             </div>

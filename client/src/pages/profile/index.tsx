@@ -1,7 +1,6 @@
 import { useStore } from "@/store"
 import { BackButton } from "@/ui-components/back-button"
 import { CustomInput } from "@/ui-components/custom-input";
-import Avatar from '@mui/material/Avatar';
 import styles from './styles.module.scss'
 import { FieldValues, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -28,7 +27,6 @@ const Profile = () => {
   const onSubmit = async (data: FieldValues) => {
     try {
       const response = await apiClient.patch(UPDATE_USER_INFO_ROUTE, { data }, { withCredentials: true })
-      console.log("🚀 ~ onSubmit ~ response:", response)
 
       if (response.status === 200) {
         setUserInfo(response.data.user)
@@ -44,11 +42,6 @@ const Profile = () => {
     <section className={styles.section}>
       <Panel className={styles.panel}>
         <BackButton className={styles['back-button']} />
-
-        <Avatar sx={{ width: 100, height: 100 }}>
-          {(userInfo?.firstName && userInfo?.lastName) && userInfo.firstName[0] + userInfo.lastName[0]}
-        </Avatar>
-
         <form className={styles.form} onSubmit={userForm.handleSubmit(onSubmit)}>
           <CustomInput
             name="email"

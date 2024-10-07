@@ -4,11 +4,12 @@
 
 .contacts {
   position: relative;
-  width: $contact-section-width;
-  flex-grow: 1;
+  width: 100%;
+  max-width: $contact-section-width;
   background-color: $color-black-1;
   color: $color-white;
-  border-right: 2px solid $color-grey;
+  border-right: 1px solid $color-grey;
+  border-left: 1px solid $color-grey;
 }
 
 .header {
@@ -17,7 +18,6 @@
 }
 
 .rooms {
-  padding: 0 16px 0 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -25,14 +25,20 @@
 
 .room {
   @include flex-between;
+
 }
 
 .chat-title {
+  margin-bottom: 0;
   font-size: $fs-30;
+  font-weight: $fw-800;
   text-align: center;
+  border-bottom: 1px solid $color-grey;
+  height: $header-height;
 }
 
 .sub-title {
+  padding: 16px;
   color: $color-grey;
   font-size: $fs-14;
   font-weight: 900;
