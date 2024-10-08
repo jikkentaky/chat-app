@@ -54,5 +54,30 @@ body {
 .MuiAvatar-root {
   color: $color-black !important;
   background-color: $color-aquamarine-1 !important;
+}
 
+.MuiAutocomplete-hasPopupIcon {
+  width: 100% !important;
+  max-width: 548px !important;
+  border: none !important;
+
+  &>div {
+    border-radius: 16px !important;
+    background-color: $color-black-3 !important;
+
+    &>label {
+      color: $color-violet !important;
+    }
+
+    &>div {
+      &>input {
+        color: $color-white !important;
+      }
+
+      &>fieldset {
+        border: none !important;
+        border-radius: 16px !important;
+      }
+    }
+  }
 }

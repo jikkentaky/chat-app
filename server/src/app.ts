@@ -5,6 +5,7 @@ import config from './config'
 import { authRoutes } from './routes/auth-routes'
 import { contactRoutes } from './routes/contact-routes'
 import { messagesRoutes } from './routes/messages-routes'
+import { channelRoutes } from './routes/channel-routes'
 
 const app = express()
 
@@ -24,6 +25,7 @@ app.use('/uploads/files', express.static('uploads/files'))
 app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes)
 app.use('/api/messages', messagesRoutes)
+app.use('/api/channel', channelRoutes)
 
 export default app;
 

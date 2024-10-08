@@ -22,6 +22,12 @@ const MESSAGES_ROUTES = 'api/messages';
 const GET_MESSAGES_ROUTE = `${MESSAGES_ROUTES}/get-messages`;
 const UPLOAD_FILES_ROUTE = `${MESSAGES_ROUTES}/upload-file`;
 
+//Channel routes
+const CHANNEL_ROUTES = 'api/channel';
+const CREATE_CHANNEL_ROUTE = `${CHANNEL_ROUTES}/create-channel`;
+const GET_USER_CHANNELS_ROUTE = `${CHANNEL_ROUTES}/get-user-channels`;
+const GET_CHANNEL_MESSAGES_ROUTE = `${CHANNEL_ROUTES}/get-channel-messages`;
+
 const animationDefaultOptions = {
   loop: true,
   autoplay: true,
@@ -59,6 +65,9 @@ export {
   GET_CONTACTS_FOR_DM_LIST_ROUTE,
   UPLOAD_FILES_ROUTE,
   GET_ALL_CONTACTS,
+  CREATE_CHANNEL_ROUTE,
+  GET_USER_CHANNELS_ROUTE,
+  GET_CHANNEL_MESSAGES_ROUTE,
 
   // animation
   animationDefaultOptions,

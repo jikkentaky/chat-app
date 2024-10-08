@@ -10,12 +10,13 @@ import { useSocket } from '@/context/socket-context';
 import toast from 'react-hot-toast';
 import { apiClient } from '@/lib/api-client';
 import { UPLOAD_FILES_ROUTE } from '@/utils/config';
+import { MessageInfo } from '@/types/message-info';
 
 const MessageBar = () => {
   const emojiRef = useRef<HTMLDivElement | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
   const { socket } = useSocket();
-  const { selectedChatData, selectedChatType, userInfo } = useStore();
+  const { selectedChatData, selectedChatType, userInfo, addMessage } = useStore();
   const [message, setMessage] = useState<string>('');
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState<boolean>(false);
 
@@ -38,17 +39,32 @@ const MessageBar = () => {
   };
 
   const handleSendMessage = () => {
+    if (!userInfo) return;
+
     if (selectedChatType === 'contact' && socket) {
-      socket.emit('sendMessage', {
-        sender: userInfo?.id,
+      const newMessage = {
+        sender: userInfo.id,
         content: message,
         recipient: selectedChatData?._id,
         messageType: 'text',
         fileUrl: null,
-      });
+      }
 
-      setMessage('');
+      socket.emit('sendMessage', newMessage);
+      addMessage({ ...newMessage, _id: userInfo.id, timestamp: new Date() } as unknown as MessageInfo);
+    } else if (selectedChatType === 'channel' && socket) {
+      const newMessage = {
+        sender: userInfo?.id,
+        content: message,
+        messageType: 'text',
+        fileUrl: null,
+        channelId: selectedChatData?._id,
+      }
+
+      socket.emit('sendChannelMessage', newMessage);
     }
+
+    setMessage('');
   };
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,6 +101,14 @@ const MessageBar = () => {
               recipient: selectedChatData?._id,
               messageType: 'file',
               fileUrl: response.data.filePath,
+            });
+          } else if (selectedChatType === 'channel' && socket) {
+            socket.emit('sendChannelMessage', {
+              sender: userInfo?.id,
+              content: null,
+              messageType: 'file',
+              fileUrl: response.data.filePath,
+              channelId: selectedChatData?._id,
             });
           }
         }

@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useCallback, useState } from 'react'
 import styles from './styles.module.scss'
 import { FaPlus } from 'react-icons/fa'
 import { CustomButton } from '@/ui-components/custom-button'
-import { Avatar, debounce, Modal } from '@mui/material'
+import { Avatar, Modal } from '@mui/material'
 import { Typography } from '@/ui-components/typography'
 import { RiCloseFill } from 'react-icons/ri'
 import { EmptyChat } from '@/pages/chat/components/empty-chat'
@@ -10,6 +10,7 @@ import { apiClient } from '@/lib/api-client'
 import { SEARCH_CONTACT_ROUTE } from '@/utils/config'
 import { useStore } from '@/store'
 import { ContactInfo } from '@/types/contact-info'
+import { debounce } from 'lodash'
 
 const NewDM: FC = () => {
   const { setSelectedChatType, setSelectedChatData } = useStore()
@@ -53,7 +54,7 @@ const NewDM: FC = () => {
   const debouncedSearch = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
       handleSearchContact(event.target.value);
-    }, 500),
+    }, 600),
     []
   );
 

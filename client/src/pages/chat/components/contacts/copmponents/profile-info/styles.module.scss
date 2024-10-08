@@ -28,7 +28,8 @@
 .name {
   text-wrap: wrap;
   max-width: 150px;
-  -webkit-line-clamp: 1;
+  word-wrap: break-word;
+  white-space: normal;
 }
 
 .edit-button,

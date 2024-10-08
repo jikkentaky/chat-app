@@ -3,17 +3,18 @@ import styles from './styles.module.scss';
 import { useEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import { Typography } from '@/ui-components/typography';
-import cn from 'classnames';
 import toast from 'react-hot-toast';
 import { apiClient } from '@/lib/api-client';
-import { GET_MESSAGES_ROUTE, HOST } from '@/utils/config';
+import { GET_CHANNEL_MESSAGES_ROUTE, GET_MESSAGES_ROUTE, HOST } from '@/utils/config';
 import { MdFolderZip } from 'react-icons/md'
 import { IoMdArrowRoundDown } from 'react-icons/io'
 import { IoCloseSharp } from 'react-icons/io5';
 import { MessageInfo } from '@/types/message-info';
+import cn from 'classnames';
+import { Avatar } from '@mui/material';
 
 const MessageContainer = () => {
-  const { selectedChatData, selectedChatType, selectedChatMessages, setSelectedChatMessages } = useStore();
+  const { selectedChatData, userInfo, selectedChatType, selectedChatMessages, setSelectedChatMessages } = useStore();
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [isShowImage, setIsShowImage] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -35,8 +36,25 @@ const MessageContainer = () => {
       }
     }
 
+    const getChannelMessages = async () => {
+      try {
+        const response = await apiClient.get(
+          `${GET_CHANNEL_MESSAGES_ROUTE}/${selectedChatData?._id}`,
+          { withCredentials: true }
+        );
+
+        if (response.status === 200 && response.data.messages) {
+          setSelectedChatMessages(response.data.messages)
+        }
+      } catch (error) {
+        toast.error('Cannot get messages')
+      }
+    }
+
     if (selectedChatData?._id && selectedChatType === 'contact') {
       getMessages()
+    } else if (selectedChatType === 'channel') {
+      getChannelMessages()
     }
   }, [selectedChatData?._id, selectedChatType, setSelectedChatMessages])
 
@@ -65,6 +83,10 @@ const MessageContainer = () => {
 
           {selectedChatType === 'contact' && (
             renderDMMessages(message)
+          )}
+
+          {selectedChatType === 'channel' && (
+            renderChannelMessages(message)
           )}
         </div>
       )
@@ -188,6 +210,106 @@ const MessageContainer = () => {
           )
         }
       </div >
+    )
+  }
+
+  const renderChannelMessages = (message: MessageInfo) => {
+    const isSender = message.sender._id !== userInfo?.id;
+
+    return (
+      <div className={styles['message-wrapper']}>
+        {message.messageType === 'text' && (
+          <div className={cn({
+            [styles['message-sender-container']]: isSender,
+            [styles['message-reciever-container']]: !isSender
+          })}
+          >
+            <Typography className={cn({
+              [styles['message-sender']]: !isSender,
+              [styles['message-reciever']]: isSender
+            })}>
+              {
+                message.sender._id !== userInfo?.id
+                && <div>
+                  <Avatar
+                    className={styles['avatar']}
+                  >
+                    {message.sender.firstName?.[0] + message.sender.lastName?.[0]}
+                  </Avatar>
+                </div>
+              }
+
+              {message.content}
+            </Typography>
+
+            <div className={cn({
+              [styles['timestamp-sender']]: !isSender,
+              [styles['timestamp-reciever']]: isSender
+            })}>
+              {moment(message.timestamp).format('LT')}
+            </div>
+          </div>)
+        }
+
+        {
+          message.messageType === 'file' && (
+            (
+              <div className={cn(isSender ? styles['message-sender-container'] : styles['message-reciever-container'])}>
+                <div
+                  className={cn(styles.message, {
+                    [styles['message-sender']]: !isSender,
+                    [styles['message-reciever']]: isSender
+                  })}
+                >
+                  {
+                    message.sender._id !== userInfo?.id
+                    && <div>
+                      <Avatar
+                        className={styles['avatar']}
+                      >
+                        {message.sender.firstName[0] + message.sender.lastName[0]}
+                      </Avatar>
+                    </div>
+                  }
+
+                  {checkIfImage(message.fileUrl as string)
+                    ? (
+                      <div
+                        className={styles['image-container']}
+                        onClick={() => handleShowImage(message.fileUrl as string)}
+                      >
+                        <img
+                          src={HOST + '/' + message.fileUrl}
+                          className={styles['image']}
+                        />
+                      </div>
+                    )
+                    : (<div className={styles['file-container']}>
+                      <span>
+                        <MdFolderZip size={50} />
+                      </span>
+
+                      <span>
+                        {(message.fileUrl as string).split('/').pop()}
+                      </span>
+
+                      <span className={styles['download-button']} onClick={() => downLoadFile(message.fileUrl as string)}>
+                        <IoMdArrowRoundDown size={20} />
+                      </span>
+                    </div>)
+                  }
+                </div>
+
+                <div className={cn({
+                  [styles['timestamp-sender']]: !isSender,
+                  [styles['timestamp-reciever']]: isSender
+                })}>
+                  {moment(message.timestamp).format('LT')}
+                </div>
+              </div>)
+          )
+        }
+      </div>
     )
   }
 

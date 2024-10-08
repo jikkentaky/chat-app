@@ -1,31 +1,32 @@
-import { FC } from 'react'
-import styles from './styles.module.scss'
-import { useStore } from '@/store'
-import { Avatar } from '@mui/material'
-import cn from 'classnames'
-import { ContactInfo } from '@/types/contact-info'
+import { FC } from 'react';
+import styles from './styles.module.scss';
+import { useStore } from '@/store';
+import { Avatar } from '@mui/material';
+import cn from 'classnames';
+import { ContactInfo } from '@/types/contact-info';
+import { ChannelInfo } from '@/types/channel-info';
 
 type Props = {
-  contacts: ContactInfo[]
-  isChannel: boolean
-}
+  contacts: (ContactInfo | ChannelInfo)[];
+  isChannel: boolean;
+};
 
 const ContactList: FC<Props> = ({ contacts, isChannel }) => {
-  const { selectedChatData, setSelectedChatType, setSelectedChatData, setSelectedChatMessages } = useStore()
+  const { selectedChatData, setSelectedChatType, setSelectedChatData, setSelectedChatMessages } = useStore();
 
-  const handleClick = (contact: ContactInfo) => {
+  const handleClick = (contact: ContactInfo | ChannelInfo) => {
     setSelectedChatType(isChannel ? 'channel' : 'contact');
     setSelectedChatData(contact);
 
     if (selectedChatData?._id !== contact._id) {
-      setSelectedChatMessages([])
+      setSelectedChatMessages([]);
     }
-  }
+  };
 
   return (
     <div className={styles['contact-list']}>
-      {contacts.map((contact: ContactInfo) => {
-        const isSelected = selectedChatData?._id === contact._id
+      {contacts?.map((contact: ContactInfo | ChannelInfo) => {
+        const isSelected = selectedChatData?._id === contact._id;
         return (
           <div
             key={contact._id}
@@ -35,32 +36,33 @@ const ContactList: FC<Props> = ({ contacts, isChannel }) => {
             onClick={() => handleClick(contact)}
           >
             <div className={styles['chat-wrapper']}>
-              {!isChannel && (
-                <Avatar
-                  sx={{ width: 50, height: 50 }}
-                >
-                  {(contact?.firstName && contact?.lastName) && contact.firstName[0] + contact.lastName[0]}
+              {!isChannel && 'firstName' in contact && 'lastName' in contact && (
+                <Avatar sx={{ width: 50, height: 50 }}>
+                  {contact.firstName[0] + contact.lastName[0]}
                 </Avatar>
               )}
 
-              {isChannel && (
+              {isChannel && 'name' in contact && (
                 <div className={styles['channel-name']}>
-                  #
+                  <Avatar sx={{ width: 50, height: 50 }}>
+                    #
+                  </Avatar>
                 </div>
               )}
 
-              {isChannel ? (
-                <span>{contact.firstName}</span>
+              {isChannel && 'name' in contact ? (
+                <span>{contact.name}</span>
               ) : (
-                <span>{`${contact.firstName} ${contact.lastName[0]}`}</span>
+                'firstName' in contact && 'lastName' in contact && (
+                  <span>{`${contact.firstName} ${contact.lastName[0]}`}</span>
+                )
               )}
             </div>
           </div>
-        )
-      }
-      )}
+        );
+      })}
     </div>
-  )
-}
+  );
+};
 
-export { ContactList }
+export { ContactList };

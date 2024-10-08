@@ -50,7 +50,16 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
       }
     };
 
+    const handleReceiveChannelMessage = (message: MessageInfo) => {
+      const { selectedChatData, selectedChatType, addMessage } = useStore.getState();
+
+      if (selectedChatType && selectedChatData?._id === message.channelId) {
+        addMessage(message);
+      }
+    };
+
     socket.current.on('receiveMessage', handleReceiveMessage);
+    socket.current.on('receiveChannelMessage', handleReceiveChannelMessage);
 
     return () => {
       if (socket.current) {

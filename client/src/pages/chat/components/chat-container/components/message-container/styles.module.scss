@@ -60,6 +60,9 @@
 }
 
 .message-reciever {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   background-color: $color-black-3;
   border-color: $color-white;
   color: $color-white;

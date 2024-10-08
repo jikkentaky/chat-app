@@ -40,7 +40,8 @@ const ProfileInfo = () => {
           </Avatar>
 
           <Typography className={styles['name']}>
-            {userInfo?.firstName} {userInfo?.lastName}
+            {!userInfo?.firstName && userInfo?.email}
+            {userInfo?.firstName && userInfo?.firstName} {userInfo?.lastName}
           </Typography>
         </div>
 
